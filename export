@@ -1,0 +1,37 @@
+#!/usr/bin/zsh
+#
+# ZSH Version script was created on = ZSH 5.8
+#
+# Copies selected files into its respective locations - overriding the local file that exists on the system
+
+checkZSHVer=$(./functions/checkZSHVersion)
+checkP10KVer=$(./functions/checkP10KVersion)
+
+if [[ $checkZSHVer -ne 0 ]]; then
+	exit 1
+else
+	if [[ $checkP10KVer -ne 0 ]]; then
+		exit 1
+	fi
+fi
+
+ZSH_ARG=${1:-~/.zshrc}
+P10K_ARG=${2:-~/.p10k.zsh}
+
+# Copies .zshrc file from local repo to .zshrc location (default ~./zshrc)
+if [ -f $ZSH_ARG ]; then
+	echo ".zshrc exists, copying frpm local repo"
+	cp ./zsh/.zshrc ~/.zshrc
+else
+	echo ".zshrc doesn't exist. Copying frpm local repo"
+	
+fi
+
+# Copies .p10k.zsh file from local repo to .zshrc location (default ~./zshrc)
+if [ -f $P10K_ARG ]; then
+	echo ".p10k.zsh exists, copying from local repo"
+	cp ./zsh/.p10k.zsh ~/.p10k.zsh
+else
+	echo ".p10k.zsh doesn't exist. Copying frpm local repo"
+	cp ./zsh/.p10k.zsh ~/.p10k.zsh
+fi
