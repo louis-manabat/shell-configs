@@ -24,7 +24,7 @@ if [ -f $ZSH_ARG ]; then
 	cp ./zsh/.zshrc ~/.zshrc
 else
 	echo ".zshrc doesn't exist. Copying frpm local repo"
-	
+
 fi
 
 # Copies .p10k.zsh file from local repo to .zshrc location (default ~./zshrc)
@@ -35,3 +35,24 @@ else
 	echo ".p10k.zsh doesn't exist. Copying frpm local repo"
 	cp ./zsh/.p10k.zsh ~/.p10k.zsh
 fi
+
+while true; do
+	read -p "Do you want to apply changes? (y/n)? " yn
+
+	case $yn in
+	[yY])
+		echo "Applying changes"
+		source $ZSH_ARG
+		source $P10K_ARG
+		break
+		;;
+	[nN])
+		echo "Changes will not be applied, please run following manually to apply changes:\n
+				source ~/.zshrc\n
+				source ~/.p10k.zsh"
+		break
+		;;
+	*) echo "Invalid response" ;;
+	esac
+
+done
