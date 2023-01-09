@@ -4,8 +4,8 @@
 #
 # Copies selected files into its respective locations - overriding the local file that exists on the system
 
-checkZSHVer=$(./functions/checkZSHVersion)
-checkP10KVer=$(./functions/checkP10KVersion)
+checkZSHVer=$(./functions/checkZSHVersion.sh)
+checkP10KVer=$(./functions/checkP10KVersion.sh)
 
 if [[ $checkZSHVer -ne 0 ]]; then
 	exit 1
@@ -60,3 +60,10 @@ done
 
 # Git config commands
 git config --global init.defaultBranch main
+
+# Copies the aliases directory into root
+rm -rf .aliases
+cp -R aliases ~/.aliases
+
+# Run the sourceFiles script to recognise it as aliases
+./functions/sourceFiles.sh

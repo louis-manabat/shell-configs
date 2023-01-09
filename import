@@ -35,3 +35,7 @@ else
 	echo ".p10k.zsh doesn't exist. Please install P10K"
 	exit 1
 fi
+
+# Copies the aliases directory from root into repo
+rm -rf .aliases
+cp -R aliases ~/.aliases

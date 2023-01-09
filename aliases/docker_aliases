@@ -1,0 +1,4 @@
+alias dcud='docker-compose up -d'
+alias dcdv='docker-compose down -v'
+alias dcls='docker container ls'
+alias dils='docker image ls'
