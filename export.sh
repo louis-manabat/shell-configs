@@ -38,7 +38,8 @@ fi
 
 # Prompt to apply the .zshrc and .p10k.zsh changes if desired
 while true; do
-	read -p "Do you want to apply changes to .zshrc and .p10k.zsh? (y/n)? " yn
+	echo -n "Do you want to apply changes to .zshrc and .p10k.zsh? (y/n)? "
+	read yn
 
 	case $yn in
 	[yY])

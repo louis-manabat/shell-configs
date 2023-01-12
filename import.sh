@@ -4,8 +4,8 @@
 #
 # Copies selected files from the local system into the local repo to push back into remote
 
-checkZSHVer=$(./functions/checkZSHVersion)
-checkP10KVer=$(./functions/checkP10KVersion)
+checkZSHVer=$(./functions/checkZSHVersion.sh)
+checkP10KVer=$(./functions/checkP10KVersion.sh)
 
 if [[ $checkZSHVer -ne 0 ]]; then
 	exit 1
