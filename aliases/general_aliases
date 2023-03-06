@@ -1,1 +1,2 @@
 alias colours='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done;'
+alias git-aliases='cat ~/.gitconfig | grep "\[alias\]" -A9999 | sed "s/\[alias\]//g; s/^[ \t]*//; /^$/d"'
