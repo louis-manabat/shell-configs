@@ -56,3 +56,19 @@ do
   # Sourcing the alias file to make the commands runnable
   source $f
 done
+
+if command -v pokemon-colorscripts >/dev/null 2>&1;then
+  pkmn_arg=""
+  shiny_arg=""
+
+  if [ $(( $(shuf -i 1-100 -n 1) % 2)) -eq 0 ]; then
+    shiny_arg="-s"
+  fi
+
+  if [ $(( $(shuf -i 1-100 -n 1) % 2)) -eq 0 ]; then
+    pkmn_arg="-n 'piplup'"
+  else
+    pkmn_arg="-r"
+  fi
+  pokemon-colorscripts $pkmn_arg $shiny_arg
+fi
