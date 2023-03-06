@@ -20,4 +20,4 @@ else
 	retval=1
 fi
 
-echo "$retval"
+exit $retval
