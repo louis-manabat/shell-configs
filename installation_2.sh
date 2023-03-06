@@ -10,10 +10,6 @@ sudo pip3 install docker-compose
 echo 'Enabling Docker on boot'
 sudo systemctl enable docker
 
-if [ "$rpi" = true ]; then
-    echo 'Installing relevant Raspberry Pi packages'
-fi
-
 echo '>--------------------------------'
 echo '> Installing pokemon-colorscripts'
 echo '>--------------------------------'
