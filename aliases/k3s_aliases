@@ -1,0 +1,3 @@
+alias k3snodes='kubectl get nodes'
+alias k3spods='kubectl get pods -A'
+alias k3ssvc='kubectl get services'
