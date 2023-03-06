@@ -58,7 +58,6 @@ do
 done
 
 if command -v pokemon-colorscripts >/dev/null 2>&1;then
-  pkmn_arg=""
   shiny_arg=""
 
   if [ $(( $(shuf -i 1-100 -n 1) % 2)) -eq 0 ]; then
@@ -66,9 +65,8 @@ if command -v pokemon-colorscripts >/dev/null 2>&1;then
   fi
 
   if [ $(( $(shuf -i 1-100 -n 1) % 2)) -eq 0 ]; then
-    pkmn_arg="-n 'piplup'"
+    pokemon-colorscripts -n piplup $shiny_arg
   else
-    pkmn_arg="-r"
+    pokemon-colorscripts -r $shiny_arg
   fi
-  pokemon-colorscripts $pkmn_arg $shiny_arg
 fi
