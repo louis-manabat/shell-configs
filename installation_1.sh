@@ -25,3 +25,9 @@ sudo usermod -aG docker ${USER}
 echo '>---------------'
 echo '> Installing ZSH'
 echo '>---------------'
+
+echo '>--------------------------------'
+echo '> Installing pokemon-colorscripts'
+echo '>--------------------------------'
+git submodule update --remote --merge
+sudo ./submodules/pokemon-colorscripts/install.sh
