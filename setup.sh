@@ -4,26 +4,34 @@
 #
 # Copies selected files into its respective locations - overriding the local file that exists on the system
 
-checkZSHVer=$(./functions/checkZSHVersion.sh)
-checkP10KVer=$(./functions/checkP10KVersion.sh)
-
-if [[ $checkZSHVer -ne 0 ]]; then
-	exit 1
-else
-	if [[ $checkP10KVer -ne 0 ]]; then
-		exit 1
-	fi
-fi
-
 ZSH_ARG=${1:-~/.zshrc}
 P10K_ARG=${2:-~/.p10k.zsh}
+
+checkZSHVer=$(./setup-functions/checkZSHVersion.sh)
+checkP10KVer=$(./setup-functions/checkP10KVersion.sh "$P10K_ARG")
+
+echo '----------------------------------'
+if [[ $checkZSHVer -ne 0 ]]; then
+	echo 'ZSH error'
+	exit 1
+else
+	echo 'ZSH is installed'
+fi
+
+if [[ $checkP10KVer -ne 0 ]]; then
+	echo 'P10K error'
+	exit 1
+else
+	echo 'Powerlevel10K is installed'
+fi
+echo '----------------------------------'
 
 # Copies .zshrc file from local repo to .zshrc location (default ~./zshrc)
 if [ -f $ZSH_ARG ]; then
 	echo ".zshrc exists, copying frpm local repo"
 	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
 else
-	echo ".zshrc doesn't exist. Copying frpm local repo"
+	echo ".zshrc doesn't exist. Copying from local repo"
 	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
 fi
 
