@@ -21,20 +21,24 @@ P10K_ARG=${2:-~/.p10k.zsh}
 # Copies .zshrc file from local repo to .zshrc location (default ~./zshrc)
 if [ -f $ZSH_ARG ]; then
 	echo ".zshrc exists, copying frpm local repo"
-	cp ./zsh/.zshrc $ZSH_ARG
+	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
 else
 	echo ".zshrc doesn't exist. Copying frpm local repo"
-	cp ./zsh/.zshrc $ZSH_ARG
+	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
 fi
 
 # Copies .p10k.zsh file from local repo to .zshrc location (default ~./zshrc)
 if [ -f $P10K_ARG ]; then
 	echo ".p10k.zsh exists, copying from local repo"
-	cp ./zsh/.p10k.zsh $P10K_ARG
+	cp ./dotfiles/zsh/.p10k.zsh $P10K_ARG
 else
 	echo ".p10k.zsh doesn't exist. Copying frpm local repo"
-	cp ./zsh/.p10k.zsh $P10K_ARG
+	cp ./dotfiles/zsh/.p10k.zsh $P10K_ARG
 fi
+
+# Copies the aliases directory into root
+rm -rf ~/.aliases
+cp -R aliases ~/.aliases
 
 # Prompt to apply the .zshrc and .p10k.zsh changes if desired
 while true; do
@@ -60,11 +64,4 @@ while true; do
 done
 
 # Git config commands
-git config --global init.defaultBranch main
-
-# Copies the aliases directory into root
-rm -rf .aliases
-cp -R aliases ~/.aliases
-
-# Run the sourceFiles script to recognise it as aliases
-./functions/sourceFiles.sh
+cp ./dotfiles/git/config ~/.gitconfig
