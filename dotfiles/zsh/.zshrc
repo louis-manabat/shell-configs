@@ -51,6 +51,12 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+# Zoxide init
+eval "$(zoxide init zsh)"
+
+# fzf-tab init
+source "$HOME/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
+
 for f in ~/.aliases/*
 do
   # Sourcing the alias file to make the commands runnable
