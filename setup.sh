@@ -48,6 +48,21 @@ fi
 rm -rf ~/.aliases
 cp -R aliases ~/.aliases
 
+# Copy plugins directory into zsh/plugins in root
+if [ ! -d "$HOME/.zsh" ]; then
+    mkdir "$HOME/.zsh"
+fi
+
+if [ ! -d "$HOME/.zsh/plugins" ]; then
+    mkdir "$HOME/.zsh/plugins"
+fi
+
+if [ -d "$HOME/.zsh/plugins/fzf-tab" ]; then
+	rm -rf ~/.zsh/plugins/fzf-tab
+fi
+
+cp -R dotfiles/zsh/plugins/fzf-tab ~/.zsh/plugins/fzf-tab
+
 # Prompt to apply the .zshrc and .p10k.zsh changes if desired
 while true; do
 	echo -n "Do you want to apply changes to .zshrc and .p10k.zsh? (y/n)? "
@@ -57,13 +72,11 @@ while true; do
 	[yY])
 		echo "Applying changes"
 		source $ZSH_ARG
-		source $P10K_ARG
 		break
 		;;
 	[nN])
 		echo "Changes will not be applied, please run following manually to apply changes:\n
-				source ~/.zshrc\n
-				source ~/.p10k.zsh"
+				source ~/.zshrc"
 		break
 		;;
 	*) echo "Invalid response" ;;
