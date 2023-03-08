@@ -1,88 +1,45 @@
 #!/usr/bin/zsh
 #
 # ZSH Version script was created on = ZSH 5.8
-#
-# Copies selected files into its respective locations - overriding the local file that exists on the system
 
-ZSH_ARG=${1:-~/.zshrc}
-P10K_ARG=${2:-~/.p10k.zsh}
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-checkZSHVer=$(./setup-functions/checkZSHVersion.sh)
-checkP10KVer=$(./setup-functions/checkP10KVersion.sh "$P10K_ARG")
-
-echo '----------------------------------'
-if [[ $checkZSHVer -ne 0 ]]; then
-	echo 'ZSH error'
-	exit 1
+echo '>---------------------------------'
+if [[ ! -v $XDG_CONFIG_HOME ]]; then
+    echo "Creating XDG_CONFIG_HOME using $HOME/.dotfiles-configs"
+    XDG_CONFIG_HOME="$HOME/.dotfiles-configs"
 else
-	echo 'ZSH is installed'
+    echo "Using existing XDG_CONFIG_HOME: $XDG_CONFIG_HOME"
 fi
+echo '>---------------------------------'
 
-if [[ $checkP10KVer -ne 0 ]]; then
-	echo 'P10K error'
-	exit 1
+if [[ ! -d "$XDG_CONFIG_HOME" ]]; then
+    echo "Creating $XDG_CONFIG_HOME"
+    mkdir -p "$XDG_CONFIG_HOME"
 else
-	echo 'Powerlevel10K is installed'
+    echo "$XDG_CONFIG_HOME exists"
 fi
-echo '----------------------------------'
+echo '>---------------------------------'
 
-# Copies .zshrc file from local repo to .zshrc location (default ~./zshrc)
-if [ -f $ZSH_ARG ]; then
-	echo ".zshrc exists, copying frpm local repo"
-	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
+if [[ ! -f "$HOME/.zshenv" ]]; then
+    echo "Creating $HOME/.zshenv symlink"
+    ln -s "$SCRIPT_DIR/.zshenv" "$HOME/.zshenv"
 else
-	echo ".zshrc doesn't exist. Copying from local repo"
-	cp ./dotfiles/zsh/.zshrc $ZSH_ARG
+    echo "$HOME/.zshenv symlink established"
 fi
+echo '>---------------------------------'
 
-# Copies .p10k.zsh file from local repo to .zshrc location (default ~./zshrc)
-if [ -f $P10K_ARG ]; then
-	echo ".p10k.zsh exists, copying from local repo"
-	cp ./dotfiles/zsh/.p10k.zsh $P10K_ARG
-else
-	echo ".p10k.zsh doesn't exist. Copying frpm local repo"
-	cp ./dotfiles/zsh/.p10k.zsh $P10K_ARG
-fi
-
-# Copies the aliases directory into root
-rm -rf ~/.aliases
-cp -R aliases ~/.aliases
-
-# Copy plugins directory into zsh/plugins in root
-if [ ! -d "$HOME/.zsh" ]; then
-    mkdir "$HOME/.zsh"
-fi
-
-if [ ! -d "$HOME/.zsh/plugins" ]; then
-    mkdir "$HOME/.zsh/plugins"
-fi
-
-if [ -d "$HOME/.zsh/plugins/fzf-tab" ]; then
-	rm -rf ~/.zsh/plugins/fzf-tab
-fi
-
-cp -R dotfiles/zsh/plugins/fzf-tab ~/.zsh/plugins/fzf-tab
-
-# Prompt to apply the .zshrc and .p10k.zsh changes if desired
-while true; do
-	echo -n "Do you want to apply changes to .zshrc and .p10k.zsh? (y/n)? "
-	read yn
-
-	case $yn in
-	[yY])
-		echo "Applying changes"
-		source $ZSH_ARG
-		break
-		;;
-	[nN])
-		echo "Changes will not be applied, please run following manually to apply changes:\n
-				source ~/.zshrc"
-		break
-		;;
-	*) echo "Invalid response" ;;
-	esac
-
+for dir_path in ./dotfiles/*; do
+    if [ -d "$dir_path" ]; then
+        dir= $(echo "$dir" | sed -r 's/^(.\/dotfiles\/)//')
+        if [[ -d "$XDG_CONFIG_HOME/$dir" && ! -L "$XDG_CONFIG_HOME/$dir" ]]; then
+            rm -rf "$XDG_CONFIG_HOME/$dir" "$XDG_CONFIG_HOME/$dir"
+            echo "Deleting and replacing $XDG_CONFIG_HOME/$dir as there is no link"
+        fi
+        echo "Creating missing symlinks"
+        if [[ ! -d "$XDG_CONFIG_HOME/$dir" || ! -f "$XDG_CONFIG_HOME/$dir" || -L "$XDG_CONFIG_HOME/$dir" ]]; then
+            ln -s "$SCRIPT_DIR/$dir" "$XDG_CONFIG_HOME"
+        fi
+    fi 
 done
-
-# Git config commands
-cp ./dotfiles/git/config ~/.gitconfig
+echo '>---------------------------------'

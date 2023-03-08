@@ -33,7 +33,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f "$ZSHDIR/.p10k.zsh" ]] || source "$ZSHDIR/.p10k.zsh"
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTFILE=~/.zsh_history
 HISTSIZE=1000
@@ -55,9 +55,9 @@ compinit
 eval "$(zoxide init zsh)"
 
 # fzf-tab init
-source "$HOME/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
+source "$ZSHPLUGINS/fzf-tab/fzf-tab.plugin.zsh"
 
-for f in ~/.aliases/*
+for f in "$ZSHALIAS"
 do
   # Sourcing the alias file to make the commands runnable
   source $f
@@ -66,7 +66,7 @@ done
 if command -v pokemon-colorscripts >/dev/null 2>&1;then
   shiny_arg=""
 
-  if [ $(( $(shuf -i 1-100 -n 1) % 2)) -eq 0 ]; then
+  if [ $(( $(shuf -i 1-1365 -n 1) ) -eq 393 ]; then
     shiny_arg="-s"
   fi
 
