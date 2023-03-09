@@ -10,3 +10,6 @@
 	path = dotfiles/zsh/plugins/fzf-tab
 	url = https://github.com/Aloxaf/fzf-tab
 	branch = master
+[submodule "dotfiles/zsh/plugins/powerlevel10k"]
+	path = dotfiles/zsh/plugins/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k
