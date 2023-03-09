@@ -83,7 +83,6 @@ sudo apt-get autoremove $assume_yes $quiet
 if ! command -v git >/dev/null 2>&1; then
     echo '>---------------------------------'
     echo '> Installing Git '
-    echo '>---------------------------------'
     sudo apt-get install git $assume_yes $quiet
 fi
 
@@ -100,4 +99,11 @@ do
     echo "> Installing $package"
     sudo apt-get install $pacakge $assume_yes $quiet
 done
+
 echo '>---------------------------------'
+echo '> Installing fzf '
+if [ -f ~/.fzf.zsh ]; then
+
+else
+
+fi

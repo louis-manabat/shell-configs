@@ -1,0 +1,12 @@
+[submodule "submodules/pokemon-colorscripts"]
+	path = submodules/pokemon-colorscripts
+	url = https://gitlab.com/phoneybadger/pokemon-colorscripts
+	branch = main
+[submodule "dotfiles/zsh/plugins/fzf"]
+	path = dotfiles/zsh/plugins/fzf
+	url = https://github.com/junegunn/fzf
+	branch = master
+[submodule "dotfiles/zsh/plugins/fzf-tab"]
+	path = dotfiles/zsh/plugins/fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab
+	branch = master
