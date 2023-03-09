@@ -30,12 +30,12 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+source "$ZDOTDIR/powerlevel10k/powerlevel10k.zsh-theme"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$ZSHDIR/.p10k.zsh" ]] || source "$ZSHDIR/.p10k.zsh"
+[[ ! -f "$ZDOTDIR/.p10k.zsh" ]] || source "$ZDOTDIR/.p10k.zsh"
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTFILE=~/.zsh_history
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=1000
 SAVEHIST=1000
 
@@ -44,7 +44,7 @@ bindkey -e
 # End of lines configured by zsh-newuser-install
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/maabat/.zshrc'
+zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 
 # Use modern completion system
 autoload -Uz compinit
@@ -55,13 +55,18 @@ compinit
 eval "$(zoxide init zsh)"
 
 # Source fzf - need to update this
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
 
 # fzf-tab init
 source "$ZSHPLUGINS/fzf-tab/fzf-tab.plugin.zsh"
 
-for f in "$ZSHALIAS"
-do
+# zsh aliases
+source "$ZDOTDIR/aliases.zsh"
+
+# kubectl autocompletion
+source "$XDG_CONFIG_HOME/k3s/zsh_completion"
+
+for f in $ZSHALIASES/*; do
   # Sourcing the alias file to make the commands runnable
   source $f
 done
@@ -69,7 +74,7 @@ done
 if command -v pokemon-colorscripts >/dev/null 2>&1;then
   shiny_arg=""
 
-  if [ $(( $(shuf -i 1-1365 -n 1) ) -eq 393 ]; then
+  if [ $(shuf -i 1-1365 -n 1) -eq 393 ]; then
     shiny_arg="-s"
   fi
 
