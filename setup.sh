@@ -9,7 +9,7 @@ nc='\033[0m'
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 echo '>---------------------------------'
-if [[ -v $XDG_CONFIG_HOME ]]; then
+if [[ -v $XDG_CONFIG_HOME || -z $XDG_CONFIG_HOME ]]; then
     echo -e "Creating XDG_CONFIG_HOME using ${red}$HOME/.dotfiles-configs${nc}"
     XDG_CONFIG_HOME="$HOME/.dotfiles-configs"
 else
