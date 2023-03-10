@@ -63,15 +63,17 @@ source "$ZSHPLUGINS/fzf-tab/fzf-tab.plugin.zsh"
 # zsh aliases
 source "$ZDOTDIR/aliases.zsh"
 
-# kubectl autocompletion
-source "$XDG_CONFIG_HOME/k3s/zsh_completion"
+# kubectl autocompletion - if applicable
+if command -v kubectl >/dev/null 2>&1; then
+  source "$XDG_CONFIG_HOME/k3s/zsh_completion"
+fi
 
+# Sourcing the alias file to make the commands runnable
 for f in $ZSHALIASES/*; do
-  # Sourcing the alias file to make the commands runnable
   source $f
 done
 
-if command -v pokemon-colorscripts >/dev/null 2>&1;then
+if command -v pokemon-colorscripts >/dev/null 2>&1; then
   shiny_arg=""
 
   if [ $(shuf -i 1-1365 -n 1) -eq 393 ]; then
