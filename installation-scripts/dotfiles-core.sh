@@ -97,13 +97,7 @@ for package in "${packages[@]}"
 do
     echo '>---------------------------------'
     echo "> Installing $package"
-    sudo apt-get install $pacakge $assume_yes $quiet
+    sudo apt-get install $package $assume_yes $quiet
 done
 
 echo '>---------------------------------'
-echo '> Installing fzf '
-if [ -f ~/.fzf.zsh ]; then
-
-else
-
-fi
