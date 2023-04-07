@@ -10,7 +10,8 @@
     aa = add .
     cm = commit -m
     co = checkout
-    p = push
+    pl = pull
+    ph = push
     rsh = reset --soft HEAD~1
     usa = restore --staged .
     us = restore --staged
