@@ -1,7 +1,7 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/maabat/repos/shell-configs/dotfiles/zsh/plugins/fzf/bin* ]]; then
-  PATH="${PATH:+${PATH}:}/home/maabat/repos/shell-configs/dotfiles/zsh/plugins/fzf/bin"
+if [[ ! "$PATH" == "$ZSHPLUGINS/fzf/bin" ]]; then
+  PATH="${PATH:+${PATH}:}$ZSHPLUGINS/fzf/bin"
 fi
 
 # Auto-completion
