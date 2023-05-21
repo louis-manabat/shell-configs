@@ -8,13 +8,15 @@
 [alias]
     a = add
     aa = add .
+    b = branch
     cm = commit -m
     co = checkout
-    pl = pull
-    ph = push
-    rsh = reset --soft HEAD~1
-    usa = restore --staged .
-    us = restore --staged
-    pa = "!f() { git add -A && git commit -m \"$1\" && git push; }; f"
+    l = log
     nb = "!git checkout -b $1 && git push -u origin $1"
+    pa = "!f() { git add -A && git commit -m \"$1\" && git push; }; f"
+    ph = push
+    pl = pull
+    rsh = reset --soft HEAD~1
     s = status
+    us = restore --staged
+    usa = restore --staged .
