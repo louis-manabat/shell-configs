@@ -50,3 +50,11 @@ for dir_path in ./dotfiles/*; do
     fi 
 done
 echo '>---------------------------------'
+
+echo 'Initialising and updating submodules'
+git submodule init
+git submodule update
+echo '>---------------------------------'
+
+echo 'Installing Pokemon-colorscripts'
+cd sudo ./submodules/pokemon-colorscripts/install.sh
