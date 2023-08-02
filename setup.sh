@@ -57,4 +57,4 @@ git submodule update
 echo '>---------------------------------'
 
 echo 'Installing Pokemon-colorscripts'
-cd sudo ./submodules/pokemon-colorscripts/install.sh
+# cd sudo ./submodules/pokemon-colorscripts/install.sh
