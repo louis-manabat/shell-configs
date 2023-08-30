@@ -54,7 +54,7 @@ compinit
 # Zoxide init
 eval "$(zoxide init zsh)"
 
-# Source fzf - need to update this
+# Source fzf
 [ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
 
 # fzf-tab init

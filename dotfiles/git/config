@@ -20,3 +20,5 @@
     s = status
     us = restore --staged
     usa = restore --staged .
+[credential]
+	helper = store
