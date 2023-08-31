@@ -10,7 +10,7 @@ _plugin.config = function()
     });
 
     -- OneDark will load on startup
-    require("onedark").load()
+    require("onedark").load();
 end;
 
 return _plugin;
