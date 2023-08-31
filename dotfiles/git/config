@@ -9,6 +9,7 @@
     a = add
     aa = add .
     b = branch
+    cl = clone
     cm = commit -m
     co = checkout
     l = log

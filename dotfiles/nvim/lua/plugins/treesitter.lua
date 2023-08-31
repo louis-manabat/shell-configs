@@ -1,5 +1,5 @@
 local plugin = {
-    url = "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
     build = function()
         require("nvim-treesitter.install").update({ with_sync = true })
     end
@@ -7,9 +7,13 @@ local plugin = {
 
 plugin.config = function()
     require("nvim-treesitter.configs").setup({
-        ensure_installed = { "terraform" },
+        ensure_installed = { 
+            "terraform",
+            "bash",
+            "json"
+        },
         sync_install = false,
-        high = { enable = true },
+        highlight = { enable = true },
         indent = { enable = true }
     })
 end;

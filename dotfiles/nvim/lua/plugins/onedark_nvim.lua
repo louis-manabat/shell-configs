@@ -1,5 +1,5 @@
 local _plugin = {
-    url = "navarasu/onedark.nvim",
+    "navarasu/onedark.nvim",
     lazy = false
 }
 
