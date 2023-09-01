@@ -54,7 +54,15 @@ echo '>---------------------------------'
 echo 'Initialising and updating submodules'
 git submodule init
 git submodule update
-echo '>---------------------------------'
 
-echo 'Installing Pokemon-colorscripts'
-# cd sudo ./submodules/pokemon-colorscripts/install.sh
+if !command -v pokemon-colorscripts >/dev/null 2>&1; then
+    echo '>---------------------------------'
+
+    # Subshell process to install pokemon-colorscripts
+    echo 'Installing pokemon-colorscripts'
+    (
+        cd submodules/pokemon-colorscripts
+        sudo ./install.sh
+        exit 3
+    )
+fi
