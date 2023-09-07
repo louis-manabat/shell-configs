@@ -5,9 +5,9 @@ local _plugin = {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-fzf-native.nvim"
     },
-    enabled = false,
-    lazy = true
-}
+    lazy = true,
+    enabled = false
+};
 
 _plugin.config = function()
     require("telescope").setup({});

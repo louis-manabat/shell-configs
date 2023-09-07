@@ -1,7 +1,8 @@
 local _plugin = {
     "navarasu/onedark.nvim",
-    lazy = false
-}
+    lazy = false,
+    enabled = true
+};
 
 _plugin.config = function()
     -- Setting up OneDark

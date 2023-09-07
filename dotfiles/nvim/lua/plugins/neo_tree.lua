@@ -5,7 +5,8 @@ local _plugin = {
     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
     "MunifTanjim/nui.nvim",
   },
-  lazy = false
+  lazy = false,
+  enabled = true
 };
 
 -- These are all defaults straight from the repo
