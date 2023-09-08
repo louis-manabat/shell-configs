@@ -3,7 +3,7 @@ local _plugin = {
     dependencies = {
         "nvim-treesitter/nvim-treesitter"
     },
-    lazy = false,
+    lazy = true,
     enabled = false -- Need to add more configurations to this
 }
 
