@@ -3,14 +3,15 @@ local _plugin = {
     dependencies = {
         "nvim-treesitter/nvim-treesitter"
     },
-    lazy = true,
-    enabled = false -- Need to add more configurations to this
+    -- lazy = true,
+    enabled = true
 }
 
+-- Not needed for now since no configs are needed
+-- - Unless custom logic is created using the following below
+-- - https://github.com/Eandrju/cellular-automaton.nvim?tab=readme-ov-file#implementing-your-own-cellular-automaton-logic
 _plugin.config = function()
-    require("cellular-automaton").register_animation({
-
-    });
+     
 end;
 
 return _plugin;
