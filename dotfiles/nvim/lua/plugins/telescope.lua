@@ -5,8 +5,8 @@ local _plugin = {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-fzf-native.nvim"
     },
-    lazy = true,
-    enabled = false
+    lazy = false,
+    enabled = true
 };
 
 _plugin.config = function()
