@@ -54,6 +54,9 @@ compinit
 # Zoxide init
 eval "$(zoxide init zsh)"
 
+# Source bun
+[ -s "/home/maabat/.bun/_bun" ] && source "/home/maabat/.bun/_bun"
+
 # Source fzf
 [ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
 
