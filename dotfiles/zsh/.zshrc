@@ -49,10 +49,16 @@ zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 # Use modern completion system
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
-# Zoxide init
-eval "$(zoxide init zsh)"
+###################################
+# End of lines added by compinstall
+###################################
+
+#-----------------------------------------------------------------------------
+
+########################
+# Start of custom config
+########################
 
 # Source fzf
 [ -f "$XDG_CONFIG_HOME/fzf/fzf.zsh" ] && source "$XDG_CONFIG_HOME/fzf/fzf.zsh"
@@ -63,16 +69,27 @@ source "$ZSHPLUGINS/fzf-tab/fzf-tab.plugin.zsh"
 # zsh aliases
 source "$ZDOTDIR/aliases.zsh"
 
-# kubectl autocompletion - if applicable
-if command -v kubectl >/dev/null 2>&1; then
-  source "$XDG_CONFIG_HOME/k3s/zsh_completion"
-fi
-
 # Sourcing the alias file to make the commands runnable
 for f in $ZSHALIASES/*; do
   source $f
 done
 
+#------------------------------------------------------
+# Conditional inits start - package needs to be install
+#------------------------------------------------------
+
+# Zoxide init
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# kubectl autocompletion
+if command -v kubectl >/dev/null 2>&1; then
+  source "$XDG_CONFIG_HOME/k3s/zsh_completion"
+fi
+
+# Run the pokemon-colorscripts package if it exists
+# Note: Keep this at the end of the .zshrc file as it needs to run last after setup
 if command -v pokemon-colorscripts >/dev/null 2>&1; then
   shiny_arg=""
 
