@@ -1,0 +1,16 @@
+
+
+- name: Dotfiles Playbook setup
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+    - name: Check if zsh command is executable
+      command: "which zsh"
+      register: zsh_check
+      ignore_errors: true
+
+    - name: Fail the Ansible Playbook if zsh is not installed
+      fail:
+        msg: "zsh is not installed - please install zsh before proceeding"
+      when: "'zsh' not in zsh_check.stdout"
