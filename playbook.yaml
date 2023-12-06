@@ -4,6 +4,15 @@
   hosts: localhost
   gather_facts: true
 
+  vars:
+    # playbook_dir - for location of Ansible playbook :)
+    pi_hole: false
+    pi_hole_dotfiles:
+      - fzf
+      - git
+      - nvim
+      - zsh
+
   tasks:
     - name: Check if zsh command is executable
       command: "which zsh"
@@ -14,3 +23,35 @@
       fail:
         msg: "zsh is not installed - please install zsh before proceeding"
       when: "'zsh' not in zsh_check.stdout"
+
+    - name: Lookup XDG_CONFIG_HOME
+      ansible.builtin.set_fact:
+        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME')}}"
+
+    - name: Set XDG_CONFIG_HOME if not defined
+      ansible.builtin.set_fact:
+        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfile-configs"
+      register: XDG_CONFIG_HOME_RESULT
+      when: XDG_CONFIG_HOME is not defined
+
+    - name: Display XDG_CONFIG_HOME
+      debug: 
+        msg: "The XDG_CONFIG_HOME env variable is set to: {{ XDG_CONFIG_HOME }}"
+
+    - name: Create XDG_CONFIG_HOME if it does not exists
+      ansible.builtin.file:
+        path: "{{ XDG_CONFIG_HOME }}"
+        state: directory
+        recurse: yes
+
+    - name: Determine installation type - Regular setup
+      ansible.builtin.shell: 
+        cmd: "echo 'Regular Rasp-Pi setup'"
+      when: not pi_hole
+
+    - name: Determine installation type - Pi-Hole setup
+      ansible.builtin.shell:
+        cmd: "echo 'Pi-Hole Rasp-Pi setup'"
+      when: pi_hole
+
+    # Synlinks here
