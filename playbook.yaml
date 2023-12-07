@@ -1,5 +1,3 @@
-
-
 - name: Dotfiles Playbook setup
   hosts: localhost
   gather_facts: true
@@ -7,21 +5,34 @@
   vars:
     # playbook_dir - for location of Ansible playbook :)
     pi_hole: false
+    work: false
     pi_hole_dotfiles:
       - fzf
       - git
       - nvim
       - zsh
+    work_dotfiles:
+      - fzf
+      - nvim
+      - zsh
 
   tasks:
+    # Submodule
+
+    - name: Update all apt packages
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+      become: true
+
     - name: Check if zsh command is executable
       command: "which zsh"
       register: zsh_check
       ignore_errors: true
 
-    - name: Fail the Ansible Playbook if zsh is not installed
-      fail:
-        msg: "zsh is not installed - please install zsh before proceeding"
+    - name: Install zsh if not installed
+      ansible.builtin.apt:
+        name: zsh
       when: "'zsh' not in zsh_check.stdout"
 
     - name: Lookup XDG_CONFIG_HOME
@@ -30,7 +41,7 @@
 
     - name: Set XDG_CONFIG_HOME if not defined
       ansible.builtin.set_fact:
-        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfile-configs"
+        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
       register: XDG_CONFIG_HOME_RESULT
       when: XDG_CONFIG_HOME is not defined
 
@@ -54,4 +65,31 @@
         cmd: "echo 'Pi-Hole Rasp-Pi setup'"
       when: pi_hole
 
-    # Synlinks here
+    # <Strictly> Soft Symlinks
+    - name: Symlink - .zshenv
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/.zshenv"
+        dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshenv"
+        state: link
+        force: no
+
+    - name: Getting directory names in the dotfiles directory
+      find:
+        paths: "{{ playbook_dir }}/dotfiles"
+        file_type: directory
+      register: found_dotfile_directories
+      when: not pi_hole and not work
+
+    - name: Extract directory names and set as a variables list
+      set_fact:
+        dotfile_directories: "{{ found_dotfile_directories.files | map(attribute='path') | map('basename') | list }}"
+      when: not pi_hole and not work
+
+    - name: Symlink - General setup
+      ansible.builtin.file:
+        src: "{{ playbook_dir }}/dotfiles/{{ item }}"
+        dest: "{{ XDG_CONFIG_HOME }}"
+        state: link
+        force: no
+      loop: "{{ dotfile_directories }}"
+      when: not pi_hole and not work
