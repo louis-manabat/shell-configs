@@ -10,7 +10,24 @@
       - zsh
 
   tasks:
-    # Submodule
+    # Submodules
+    - name: Fetch submodule info from .gitmodules
+      slurp:
+        src: .gitmodules
+      register: submodules
+
+    - name: Parse .gitmodules content
+      set_fact:
+        gitmodules_info: "{{ (submodules['content'] | b64decode | from_ini).submodule | default({}) }}"
+
+    - name: Initalise and update git submodules
+      git:
+        repo: "{{ item.value.url }}"
+        dest: "{{ item.key }}"
+        update: yes
+        recursive: yes
+        version: "{{ item.value.branch | default('master') | default('main') }}"
+      with_dict: "{{ submodules }}"
 
     - name: Update all apt packages
       ansible.builtin.apt:
@@ -56,7 +73,7 @@
         state: link
         force: no
 
-    - name: Symlink - General setup
+    - name: Symlinks - Work setup
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/{{ item }}"
         dest: "{{ XDG_CONFIG_HOME }}"
