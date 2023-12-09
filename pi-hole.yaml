@@ -13,23 +13,23 @@
 
   tasks:
     # Submodules
-    - name: Fetch submodule info from .gitmodules
-      slurp:
-        src: .gitmodules
-      register: submodules
+    # - name: Fetch submodule info from .gitmodules
+    #   slurp:
+    #     src: .gitmodules
+    #   register: submodules
 
-    - name: Parse .gitmodules content
-      set_fact:
-        gitmodules_info: "{{ (submodules['content'] | b64decode | from_ini).submodule | default({}) }}"
+    # - name: Parse .gitmodules content
+    #   set_fact:
+    #     gitmodules_info: "{{ (submodules['content'] | b64decode | from_ini).submodule | default({}) }}"
 
-    - name: Initalise and update git submodules
-      git:
-        repo: "{{ item.value.url }}"
-        dest: "{{ item.key }}"
-        update: yes
-        recursive: yes
-        version: "{{ item.value.branch | default('master') | default('main') }}"
-      with_dict: "{{ submodules }}"
+    # - name: Initalise and update git submodules
+    #   git:
+    #     repo: "{{ item.value.url }}"
+    #     dest: "{{ item.key }}"
+    #     update: yes
+    #     recursive: yes
+    #     version: "{{ item.value.branch | default('master') | default('main') }}"
+    #   with_dict: "{{ submodules }}"
 
     # Pre-symlink setup
     - name: Update all apt packages
