@@ -108,6 +108,5 @@ if !command -v pokemon-colorscripts >/dev/null 2>&1; then
     (
         cd submodules/pokemon-colorscripts
         sudo ./install.sh
-        exit 3
     )
 fi
