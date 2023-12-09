@@ -4,6 +4,7 @@
 
   vars:
     # playbook_dir - for location of Ansible playbook :)
+    XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
     pi_hole_dotfiles:
       - fzf
       - nvim
@@ -47,16 +48,6 @@
         name: zsh
       become: true
       when: "'zsh' not in zsh_check.stdout"
-
-    - name: Lookup XDG_CONFIG_HOME
-      ansible.builtin.set_fact:
-        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME')}}"
-
-    - name: Set XDG_CONFIG_HOME if not defined
-      ansible.builtin.set_fact:
-        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
-      register: XDG_CONFIG_HOME_RESULT
-      when: XDG_CONFIG_HOME is not defined
 
     - name: Display XDG_CONFIG_HOME
       debug: 
