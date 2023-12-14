@@ -12,22 +12,22 @@
 
   tasks:
     # Pre-symlink setup
-    # - name: Update all apt packages
-    #   ansible.builtin.apt:
-    #     name: "*"
-    #     state: latest
-    #   become: true
+    - name: Update all apt packages
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+      become: true
 
     - name: Check if zsh command is executable
       command: "which zsh"
       register: zsh_check
       ignore_errors: true
 
-    # - name: Install zsh if not installed
-    #   ansible.builtin.apt:
-    #     name: zsh
-    #   become: true
-    #   when: "'zsh' not in zsh_check.stdout"
+    - name: Install zsh if not installed
+      ansible.builtin.apt:
+        name: zsh
+      become: true
+      when: "'zsh' not in zsh_check.stdout"
 
     - name: Display XDG_CONFIG_HOME
       debug: 
@@ -50,19 +50,12 @@
     - name: Symlinks - Work setup
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/{{ item }}"
-        dest: "{{ XDG_CONFIG_HOME }}"
+        dest: "{{ XDG_CONFIG_HOME }}/{{ item }}"
         state: link
-        force: yes
+        force: no
       loop: "{{ work_dotfiles }}"
 
-    # - name: Symlinks - Work setup
-    #   ansible.builtin.file:
-    #     src: "{{ playbook_dir }}/dotfiles/zsh"
-    #     dest: "{{ XDG_CONFIG_HOME }}"
-    #     state: link
-    #     force: yes
-
     # Post-symlink setup
-    # - name: Install Pokemon-Colorscripts
-    #   script: "{{ playbook_dir }}/shell-scripts/colorscripts-setup.sh"
-    #   become: true
+    - name: Install Pokemon-Colorscripts
+      script: "{{ playbook_dir }}/shell-scripts/colorscripts-setup.sh"
+      become: true
