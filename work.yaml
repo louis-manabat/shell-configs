@@ -4,66 +4,40 @@
 
   vars:
     # playbook_dir - for location of Ansible playbook :)
+    XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
     work_dotfiles:
       - fzf
       - nvim
       - zsh
 
   tasks:
-    # Submodules
-    - name: Fetch submodule info from .gitmodules
-      slurp:
-        src: .gitmodules
-      register: submodules
-
-    - name: Parse .gitmodules content
-      set_fact:
-        gitmodules_info: "{{ (submodules['content'] | b64decode | from_ini).submodule | default({}) }}"
-
-    - name: Initalise and update git submodules
-      git:
-        repo: "{{ item.value.url }}"
-        dest: "{{ item.key }}"
-        update: yes
-        recursive: yes
-        version: "{{ item.value.branch | default('master') | default('main') }}"
-      with_dict: "{{ submodules }}"
-
-    - name: Update all apt packages
-      ansible.builtin.apt:
-        name: "*"
-        state: latest
-      become: true
+    # Pre-symlink setup
+    # - name: Update all apt packages
+    #   ansible.builtin.apt:
+    #     name: "*"
+    #     state: latest
+    #   become: true
 
     - name: Check if zsh command is executable
       command: "which zsh"
       register: zsh_check
       ignore_errors: true
 
-    - name: Install zsh if not installed
-      ansible.builtin.apt:
-        name: zsh
-      when: "'zsh' not in zsh_check.stdout"
-
-    - name: Lookup XDG_CONFIG_HOME
-      ansible.builtin.set_fact:
-        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME')}}"
-
-    - name: Set XDG_CONFIG_HOME if not defined
-      ansible.builtin.set_fact:
-        XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
-      register: XDG_CONFIG_HOME_RESULT
-      when: XDG_CONFIG_HOME is not defined
+    # - name: Install zsh if not installed
+    #   ansible.builtin.apt:
+    #     name: zsh
+    #   become: true
+    #   when: "'zsh' not in zsh_check.stdout"
 
     - name: Display XDG_CONFIG_HOME
       debug: 
         msg: "The XDG_CONFIG_HOME env variable is set to: {{ XDG_CONFIG_HOME }}"
 
-    - name: Create XDG_CONFIG_HOME if it does not exists
+    - name: Create XDG_CONFIG_HOME directory if it does not exists
       ansible.builtin.file:
         path: "{{ XDG_CONFIG_HOME }}"
         state: directory
-        recurse: yes
+        mode: '0755'
 
     # <Strictly> Soft Symlinks
     - name: Symlink - .zshenv
@@ -71,12 +45,24 @@
         src: "{{ playbook_dir }}/.zshenv"
         dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshenv"
         state: link
-        force: no
+        force: yes
 
     - name: Symlinks - Work setup
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/{{ item }}"
         dest: "{{ XDG_CONFIG_HOME }}"
         state: link
-        force: no
+        force: yes
       loop: "{{ work_dotfiles }}"
+
+    # - name: Symlinks - Work setup
+    #   ansible.builtin.file:
+    #     src: "{{ playbook_dir }}/dotfiles/zsh"
+    #     dest: "{{ XDG_CONFIG_HOME }}"
+    #     state: link
+    #     force: yes
+
+    # Post-symlink setup
+    # - name: Install Pokemon-Colorscripts
+    #   script: "{{ playbook_dir }}/shell-scripts/colorscripts-setup.sh"
+    #   become: true

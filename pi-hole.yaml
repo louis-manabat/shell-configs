@@ -12,24 +12,8 @@
       - git
 
   tasks:
-    # Submodules
-    # - name: Fetch submodule info from .gitmodules
-    #   slurp:
-    #     src: .gitmodules
-    #   register: submodules
-
-    # - name: Parse .gitmodules content
-    #   set_fact:
-    #     gitmodules_info: "{{ (submodules['content'] | b64decode | from_ini).submodule | default({}) }}"
-
-    # - name: Initalise and update git submodules
-    #   git:
-    #     repo: "{{ item.value.url }}"
-    #     dest: "{{ item.key }}"
-    #     update: yes
-    #     recursive: yes
-    #     version: "{{ item.value.branch | default('master') | default('main') }}"
-    #   with_dict: "{{ submodules }}"
+    # Submodules - shell script
+    
 
     # Pre-symlink setup
     - name: Update all apt packages
@@ -53,7 +37,7 @@
       debug: 
         msg: "The XDG_CONFIG_HOME env variable is set to: {{ XDG_CONFIG_HOME }}"
 
-    - name: Create XDG_CONFIG_HOME if it does not exists
+    - name: Create XDG_CONFIG_HOME directory if it does not exists
       ansible.builtin.file:
         path: "{{ XDG_CONFIG_HOME }}"
         state: directory
@@ -76,6 +60,6 @@
       loop: "{{ pi_hole_dotfiles }}"
 
     # Post-symlink setup
-    - name: Install Pokemon-Colorscripts
-      script: "{{ playbook_dir }}/colorscripts-setup.sh"
-      become: true
+    # - name: Install Pokemon-Colorscripts
+    #   script: "{{ playbook_dir }}/colorscripts-setup.sh"
+    #   become: true
