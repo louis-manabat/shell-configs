@@ -4,7 +4,8 @@
 
   vars:
     # playbook_dir - for location of Ansible playbook :)
-    XDG_CONFIG_HOME: "{{ lookup('ansible.builtin.env', 'HOME') }}/.dotfiles-configs"
+    home_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+    XDG_CONFIG_HOME: "{{ home_directory }}/.dotfiles-configs"
     pi_hole_dotfiles:
       - fzf
       - nvim
@@ -14,7 +15,6 @@
   tasks:
     # Submodules - shell script
     
-
     # Pre-symlink setup
     - name: Update all apt packages
       ansible.builtin.apt:
@@ -42,12 +42,13 @@
         path: "{{ XDG_CONFIG_HOME }}"
         state: directory
         recurse: yes
+        mode: '0755'
 
     # <Strictly> Soft Symlinks
     - name: Symlink - .zshenv
       ansible.builtin.file:
         src: "{{ playbook_dir }}/.zshenv"
-        dest: "{{ lookup('ansible.builtin.env', 'HOME') }}/.zshenv"
+        dest: "{{ home_directory }}/.zshenv"
         state: link
         force: no
 
