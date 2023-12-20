@@ -12,26 +12,7 @@
       - zsh
 
   tasks:
-    # Submodules - shell script
-
     # Pre-symlink setup
-    - name: Update all apt packages
-      ansible.builtin.apt:
-        name: "*"
-        state: latest
-      become: true
-
-    - name: Check if zsh command is executable
-      command: "which zsh"
-      register: zsh_check
-      ignore_errors: true
-
-    - name: Install zsh if not installed
-      ansible.builtin.apt:
-        name: zsh
-      become: true
-      when: "'zsh' not in zsh_check.stdout"
-
     - name: Display XDG_CONFIG_HOME
       debug: 
         msg: "The XDG_CONFIG_HOME env variable is set to: {{ XDG_CONFIG_HOME }}"
@@ -58,8 +39,3 @@
         state: link
         force: no
       loop: "{{ work_dotfiles }}"
-
-    # Post-symlink setup
-    # - name: Install Pokemon-Colorscripts
-    #   script: "{{ playbook_dir }}/shell-scripts/colorscripts-setup.sh"
-    #   become: true

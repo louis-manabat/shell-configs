@@ -18,8 +18,17 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+# Custom if statement to compenstate for the issues with Mac not recognising dircolors
+# StackExchange: https://unix.stackexchange.com/a/91978/429940 
+if whence dircolors >/dev/null 2>&1; then
+  eval "$(dircolors -b)"
+  zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+else
+  export CLICOLOR=1
+  zstyle ':completion:*:default' list-colors ''
+fi
+
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
