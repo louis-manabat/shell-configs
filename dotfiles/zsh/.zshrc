@@ -20,7 +20,7 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
 
 # Custom if statement to compenstate for the issues with Mac not recognising dircolors
-# StackExchange: https://unix.stackexchange.com/a/91978/429940 
+# StackExchange: https://unix.stackexchange.com/a/91978/429940
 if whence dircolors >/dev/null 2>&1; then
   eval "$(dircolors -b)"
   zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
