@@ -55,7 +55,7 @@
     - name: Symlinks - Pi-Hole setup
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/{{ item }}"
-        dest: "{{ XDG_CONFIG_HOME }}"
+        dest: "{{ XDG_CONFIG_HOME }}/{{ item }}"
         state: link
         force: no
       loop: "{{ pi_hole_dotfiles }}"
