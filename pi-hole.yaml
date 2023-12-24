@@ -48,7 +48,7 @@
     - name: Symlink - .zshenv
       ansible.builtin.file:
         src: "{{ playbook_dir }}/.zshenv"
-        dest: "{{ home_directory }}
+        dest: "{{ home_directory }}"
         state: link
         force: no
 
