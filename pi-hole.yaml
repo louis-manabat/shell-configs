@@ -4,7 +4,7 @@
 
   vars:
     # playbook_dir - for location of Ansible playbook :)
-    home_directory: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+    home_directory: "{{ ansible_env.HOME }}"
     XDG_CONFIG_HOME: "{{ home_directory }}/.dotfiles-configs"
     pi_hole_dotfiles:
       - fzf
