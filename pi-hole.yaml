@@ -51,6 +51,7 @@
         dest: "{{ home_directory }}/.zshenv"
         state: link
         force: no
+      become: yes
 
     - name: Symlinks - Pi-Hole setup
       ansible.builtin.file:
