@@ -48,14 +48,14 @@
     - name: Symlink - .zshenv
       ansible.builtin.file:
         src: "{{ playbook_dir }}/.zshenv"
-        dest: "{{ home_directory }}/.zshenv"
+        dest: "{{ home_directory }}
         state: link
         force: no
 
     - name: Symlinks - Pi-Hole setup
       ansible.builtin.file:
         src: "{{ playbook_dir }}/dotfiles/{{ item }}"
-        dest: "{{ XDG_CONFIG_HOME }}/{{ item }}"
+        dest: "{{ XDG_CONFIG_HOME }}"
         state: link
         force: no
       loop: "{{ pi_hole_dotfiles }}"
