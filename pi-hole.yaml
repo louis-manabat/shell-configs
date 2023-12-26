@@ -16,22 +16,22 @@
     # Submodules - shell script
     
     # Pre-symlink setup
-    - name: Update all apt packages
-      ansible.builtin.apt:
-        name: "*"
-        state: latest
-      become: true
+    # - name: Update all apt packages
+    #   ansible.builtin.apt:
+    #     name: "*"
+    #     state: latest
+    #   become: true
 
-    - name: Check if zsh command is executable
-      command: "which zsh"
-      register: zsh_check
-      ignore_errors: true
+    # - name: Check if zsh command is executable
+    #   command: "which zsh"
+    #   register: zsh_check
+    #   ignore_errors: true
 
-    - name: Install zsh if not installed
-      ansible.builtin.apt:
-        name: zsh
-      become: true
-      when: "'zsh' not in zsh_check.stdout"
+    # - name: Install zsh if not installed
+    #   ansible.builtin.apt:
+    #     name: zsh
+    #   become: true
+    #   when: "'zsh' not in zsh_check.stdout"
 
     - name: Display XDG_CONFIG_HOME
       debug: 
@@ -51,7 +51,6 @@
         dest: "{{ home_directory }}/.zshenv"
         state: link
         force: no
-      become: yes
 
     - name: Symlinks - Pi-Hole setup
       ansible.builtin.file:
