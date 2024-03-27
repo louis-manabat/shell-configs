@@ -83,6 +83,11 @@ for f in $ZSHALIASES/*; do
   source $f
 done
 
+# Evaluate homebrew - Mac only
+if [ -d "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 #------------------------------------------------------
 # Conditional inits start - package needs to be install
 #------------------------------------------------------
